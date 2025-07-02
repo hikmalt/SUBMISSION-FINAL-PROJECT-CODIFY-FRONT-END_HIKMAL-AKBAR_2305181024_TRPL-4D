@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hikmal Akbar - Software Engineer Portfolio</title>
+    <meta name="description" content="Portfolio Hikmal Akbar - Software Engineer dari Politeknik Negeri Medan">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'typing': 'typing 3.5s steps(40, end)',
+                        'blink': 'blink 1s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        typing: {
+                            '0%': { width: '0' },
+                            '100%': { width: '100%' }
+                        },
+                        blink: {
+                            '0%, 50%': { borderColor: 'transparent' },
+                            '50%': { borderColor: '#3b82f6' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        .typing-text {
+            overflow: hidden;
+            border-right: 2px solid #3b82f6;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink 1s infinite;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .skill-bar {
+            position: relative;
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 4px;
+            transition: width 2s ease-in-out;
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .dark .preloader {
+            background: #111827;
+        }
+        
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        .carousel-container {
+            overflow: hidden;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .carousel-item {
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="text-center">
+            <div class="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+            <p class="mt-4 text-lg font-semibold">Sabar Sayang</p>
+        </div>
+    </div>
+    
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+    
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 transform scale-0 z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-md z-40 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-blue-600">Hikmal Akbar</div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link hover:text-blue-600 transition-colors">Home</a>
+                    <a href="#about" class="nav-link hover:text-blue-600 transition-colors">About</a>
+                    <a href="#projects" class="nav-link hover:text-blue-600 transition-colors">Projects</a>
+                    <a href="#contact" class="nav-link hover:text-blue-600 transition-colors">Contact</a>
+                    
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    
+                    <!-- Language Toggle -->
+                    <button id="lang-toggle" class="px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                        <span id="lang-text">EN</span>
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden mt-4 hidden">
+                <div class="flex flex-col space-y-2">
+                    <a href="#home" class="nav-link py-2 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="#about" class="nav-link py-2 hover:text-blue-600 transition-colors">About</a>
+                    <a href="#projects" class="nav-link py-2 hover:text-blue-600 transition-colors">Projects</a>
+                    <a href="#contact" class="nav-link py-2 hover:text-blue-600 transition-colors">Contact</a>
+                    <div class="flex items-center space-x-4 py-2">
+                        <button id="theme-toggle-mobile" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:block"></i>
+                        </button>
+                        <button id="lang-toggle-mobile" class="px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700">
+                            <span id="lang-text-mobile">EN</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center gradient-bg">
+        <div class="container mx-auto px-6 py-20">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 animate-slide-up">
+                        Hi, I'm <span class="text-yellow-300">Hikmal Akbar</span>
+                    </h1>
+                    <div class="text-xl md:text-2xl text-white mb-6">
+                        <span class="typing-text" data-text="Software Engineer & Web Developer">Software Engineer & Web Developer</span>
+                    </div>
+                    <p class="text-lg text-white/90 mb-8 animate-slide-up" style="animation-delay: 0.2s">
+                        Mahasiswa D4 Teknologi Rekayasa Perangkat Lunak di Politeknik Negeri Medan
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-slide-up" style="animation-delay: 0.4s">
+                        <a href="#projects" class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+                            View My Work
+                        </a>
+                        <a href="#contact" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center animate-float">
+                    <div class="relative">
+                        <div class="w-80 h-80 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="w-64 h-64 bg-white/30 rounded-full flex items-center justify-center">
+                                 <img src="https://i.pinimg.com/originals/6d/3f/ba/6d3fba914cf7aa53f7a9d4a159ea2016.jpg" alt="Profile Picture" class="w-full h-full object-cover rounded-full">
+                            </div>
+                        </div>
+                        <div class="absolute -top-4 -right-4 w-20 h-20 bg-yellow-300 rounded-full flex items-center justify-center animate-bounce-slow">
+                            <i class="fas fa-code text-2xl text-gray-800"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">About Me</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Get to know more about me</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold">Introduction</h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Saya Hikmal Akbar, mahasiswa D4 Teknologi Rekayasa Perangkat Lunak di Politeknik Negeri Medan. 
+                        Saya memiliki passion yang besar dalam pengembangan perangkat lunak dan teknologi web. 
+                        Dengan pengalaman dalam berbagai bahasa pemrograman dan framework, saya selalu bersemangat 
+                        untuk mempelajari teknologi baru dan mengembangkan solusi inovatif.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-graduation-cap text-blue-600"></i>
+                            <span>D4 Teknologi Rekayasa Perangkat Lunak</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-map-marker-alt text-blue-600"></i>
+                            <span>Medan, Sumatera Utara</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-blue-600"></i>
+                            <span>+62 895-6294-71997</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-bold mb-6">Technical Skills</h4>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>HTML/CSS</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>JavaScript</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>PHP & Laravel</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Java</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>C/C++</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Education & Experience -->
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-graduation-cap text-blue-600 mr-3"></i>
+                        Education
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-blue-600 pl-4">
+                            <h4 class="font-bold text-lg">D4 Teknologi Rekayasa Perangkat Lunak</h4>
+                            <p class="text-blue-600 font-semibold">Politeknik Negeri Medan</p>
+                            <p class="text-gray-600 dark:text-gray-300">2021 - Present</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                                Fokus pada pengembangan perangkat lunak, web development, dan teknologi informasi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-briefcase text-blue-600 mr-3"></i>
+                        Experience
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-blue-600 pl-4">
+                            <h4 class="font-bold text-lg">Freelance Web Developer</h4>
+                            <p class="text-blue-600 font-semibold">Self-employed</p>
+                            <p class="text-gray-600 dark:text-gray-300">2023 - Present</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                                Mengembangkan website dan aplikasi web untuk berbagai klien menggunakan teknologi modern untuk sekolah, organisasi, dll
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">My Projects</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Here are some of my recent works</p>
+                <p class="text-xl text-gray-600 dark:text-gray-300">(Template)</p>
+            </div>
+            
+            <!-- Project Filter -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="filter-btn active px-6 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors" data-filter="all">All</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="web">Web Development</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="mobile">Mobile App</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="desktop">Desktop App</button>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-item bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow" data-category="web">
+                    <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-globe text-6xl text-white"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">E-Commerce Website</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Platform e-commerce lengkap dengan sistem pembayaran dan manajemen produk menggunakan Laravel.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">Laravel</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">MySQL</span>
+                            <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">Bootstrap</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button class="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-eye mr-2"></i>Demo
+                            </button>
+                            <button class="flex-1 border border-gray-300 dark:border-gray-600 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <i class="fab fa-github mr-2"></i>Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-item bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow" data-category="mobile">
+                    <div class="h-48 bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-6xl text-white"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Task Management App</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Aplikasi manajemen tugas dengan fitur real-time notification dan kolaborasi tim.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm">Java</span>
+                            <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm">Android</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">SQLite</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button class="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-eye mr-2"></i>Demo
+                            </button>
+                            <button class="flex-1 border border-gray-300 dark:border-gray-600 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <i class="fab fa-github mr-2"></i>Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-item bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow" data-category="desktop">
+                    <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
+                        <i class="fas fa-desktop text-6xl text-white"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Inventory Management System</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Sistem manajemen inventory dengan fitur tracking, reporting, dan analisis data.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">C++</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-full text-sm">Qt</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">PostgreSQL</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button class="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-eye mr-2"></i>Demo
+                            </button>
+                            <button class="flex-1 border border-gray-300 dark:border-gray-600 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <i class="fab fa-github mr-2"></i>Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">What People Say</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Testimonials from colleagues and peers</p>
+            </div>
+            
+            <div class="carousel-container relative">
+                <div class="carousel-track" id="testimonial-track">
+                    <div class="carousel-item">
+                        <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg text-center max-w-2xl mx-auto">
+                            <div class="text-4xl text-blue-600 mb-4">"</div>
+                            <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                                "Hikmal adalah developer yang sangat talented dan profesional. Kemampuannya dalam memecahkan masalah kompleks sangat impressive."
+                            </p>
+                            <div class="flex items-center justify-center space-x-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Mas Famrid</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">Project Manager</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg text-center max-w-2xl mx-auto">
+                            <div class="text-4xl text-blue-600 mb-4">"</div>
+                            <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                                "Kualitas kode yang dihasilkan Hikmal sangat clean dan maintainable. Sangat recommended untuk project development."
+                            </p>
+                            <div class="flex items-center justify-center space-x-4">
+                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Mas Siddiq</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">Senior Developer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="carousel-btn prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-700 p-3 rounded-full shadow-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn next absolute right-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-700 p-3 rounded-full shadow-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Let's work together on your next project</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold mb-6">Contact Information</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-phone text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Phone</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">+62 895-6294-71997</p>
+                                    <button onclick="copyToClipboard('+6289562947199')" class="text-sm text-blue-600 hover:underline">
+                                        <i class="fas fa-copy mr-1"></i>Copy
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Email</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">hikmal.akbar@example.com</p>
+                                    <button onclick="copyToClipboard('hikmal.akbar@example.com')" class="text-sm text-blue-600 hover:underline">
+                                        <i class="fas fa-copy mr-1"></i>Copy
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Location</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">Medan, Sumatera Utara</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Social Media Links -->
+                        <div class="mt-8">
+                            <h4 class="font-semibold mb-4">Follow Me</h4>
+                            <div class="flex space-x-4">
+                                <a href="https://www.instagram.com/heekmxl?igsh=MWQxM3pieDd3aGtleA==" target="_blank" class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors">
+                                    <i class="fab fa-instagram text-white"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/in/hikmal-akbar-7b3290322?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+                                    <i class="fab fa-linkedin text-white"></i>
+                                </a>
+                                <a href="#" target="_blank" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors">
+                                    <i class="fab fa-github text-white"></i>
+                                </a>
+                                <a href="https://wa.me/6289562947199" target="_blank" class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+                                    <i class="fab fa-whatsapp text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- QR Code -->
+                        <div class="mt-8 text-center">
+                            <h4 class="font-semibold mb-4">Quick Contact QR</h4>
+                            <div class="inline-block p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <div class="w-32 h-32 bg-white flex items-center justify-center">
+                                    <i class="fas fa-qrcode text-4xl text-gray-400"></i>
+                                </div>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Scan for WhatsApp</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6">Send Me a Message</h3>
+
+                    <form id="contact-form" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-2">Full Name</label>
+                            <input type="text" id="name" name="name" required
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+
+                        <div>
+                            <label for="subject" class="block text-sm font-medium mb-2">Subject</label>
+                            <input type="text" id="subject" name="subject" required
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                            <textarea id="message" name="message" rows="5" required
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent dark:bg-gray-700 dark:text-white resize-none"></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-paper-plane mr-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 bg-gray-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Hikmal Akbar</h3>
+                    <p class="text-gray-300 mb-4">
+                        Software Engineer passionate about creating innovative web solutions and applications.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/heekmxl?igsh=MWQxM3pieDd3aGtleA==" target="_blank" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/hikmal-akbar-7b3290322?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" target="_blank" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-white transition-colors">About</a></li>
+                        <li><a href="#projects" class="text-gray-300 hover:text-white transition-colors">Projects</a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Download</h4>
+                    <button id="download-pdf" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors mb-4 block">
+                        <i class="fas fa-download mr-2"></i>Download Portfolio PDF
+                    </button>
+                    <p class="text-gray-300 text-sm">
+                        Download my complete portfolio as PDF for offline viewing.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-300">
+                    &copy; 2024 Hikmal Akbar. All rights reserved. Made with ❤️ using HTML, CSS, and JavaScript.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Background Music (Optional) -->
+    <audio id="bg-music" autoplay loop>
+    <source src="https://t4.bcbits.com/stream/9b3d1de2a2f2acf2300deba8182b719e/mp3-128/769139778?p=0&ts=1751511236&t=26b830c088e73470e5708a8fd51868e8277f1bfc&token=1751511236_6e29d5592575017b6cb0b4ca66f60b1799ce025b" type="audio/mp3">
+    </audio>
+    
+    <!-- JavaScript -->
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const langToggle = document.getElementById('lang-toggle');
+        const langToggleMobile = document.getElementById('lang-toggle-mobile');
+        const backToTop = document.getElementById('back-to-top');
+        const scrollProgress = document.getElementById('scroll-progress');
+        const preloader = document.getElementById('preloader');
+        const contactForm = document.getElementById('contact-form');
+        const downloadPdf = document.getElementById('download-pdf');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide preloader
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 300);
+            }, 1500);
+            
+            // Initialize animations
+            initScrollAnimations();
+            initSkillBars();
+            initCarousel();
+            
+            // Set initial theme
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contact-form');
+            const whatsappNumber = '62895629471997'; // Your WhatsApp number without '+' or leading '00'
+
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission (page reload)
+
+                // Get form input values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+
+                // Construct the message for WhatsApp
+                let whatsappMessage = `Hello, my name is ${name}.\n`;
+                whatsappMessage += `Email: ${email}\n`;
+                whatsappMessage += `Subject: ${subject}\n\n`;
+                whatsappMessage += `Message:\n${message}`;
+
+                // URL-encode the message to make it safe for a URL
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+
+                // Create the WhatsApp URL
+                const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+                // Redirect the user to the WhatsApp URL
+                window.open(whatsappURL, '_blank'); // Opens in a new tab/window
+
+                // Optional: Clear the form after submission (if you don't want a full page redirect)
+                contactForm.reset();
+            });
+        });
+        
+        // Theme Toggle
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Language Toggle
+        let currentLang = 'ID';
+        function toggleLanguage() {
+            currentLang = currentLang === 'ID' ? 'EN' : 'ID';
+            document.getElementById('lang-text').textContent = currentLang;
+            document.getElementById('lang-text-mobile').textContent = currentLang;
+            
+            // Here you would implement actual language switching
+            // For now, it's just a visual toggle
+            //belom dpt api nya cuy
+        }
+        
+        langToggle.addEventListener('click', toggleLanguage);
+        langToggleMobile.addEventListener('click', toggleLanguage);
+        
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+            
+            // Back to top button
+            if (scrollTop > 300) {
+                backToTop.classList.remove('scale-0');
+                backToTop.classList.add('scale-100');
+            } else {
+                backToTop.classList.remove('scale-100');
+                backToTop.classList.add('scale-0');
+            }
+        });
+        
+        // Back to Top
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Scroll Animations
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-slide-up');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('section > div').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Skill Bars Animation
+        function initSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const width = entry.target.getAttribute('data-width');
+                        entry.target.style.width = width;
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+            
+            skillBars.forEach(bar => {
+                observer.observe(bar);
+            });
+        }
+        
+        // Project Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectItems = document.querySelectorAll('.project-item');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter');
+                
+                // Update active button
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-blue-600', 'text-white');
+                    b.classList.add('bg-gray-200', 'dark:bg-gray-700');
+                });
+                btn.classList.add('active', 'bg-blue-600', 'text-white');
+                btn.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+                
+                // Filter projects
+                projectItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    if (filter === 'all' || category === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 100);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+        // Testimonial Carousel
+        function initCarousel() {
+            const track = document.getElementById('testimonial-track');
+            const prevBtn = document.querySelector('.carousel-btn.prev');
+            const nextBtn = document.querySelector('.carousel-btn.next');
+            let currentSlide = 0;
+            const totalSlides = document.querySelectorAll('.carousel-item').length;
+            
+            function updateCarousel() {
+                const translateX = -currentSlide * 100;
+                track.style.transform = `translateX(${translateX}%)`;
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                currentSlide = currentSlide === 0 ? totalSlides - 1 : currentSlide - 1;
+                updateCarousel();
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                currentSlide = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1;
+                updateCarousel();
+            });
+            
+            // Auto-play carousel
+            setInterval(() => {
+                currentSlide = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1;
+                updateCarousel();
+            }, 5000);
+        }
+        
+        // Contact Form
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Basic validation
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Simulate form submission
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Message sent successfully! I will get back to you soon.');
+                contactForm.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+        
+        // Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show toast notification
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-20 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                toast.textContent = 'Copied to clipboard!';
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            });
+        }
+        
+        // Download PDF
+        downloadPdf.addEventListener('click', () => {
+            // This would typically generate and download a PDF
+            // For now, we'll show a notification
+            alert('PDF download feature will be implemented with a backend service.');
+        });
+        
+        // Typing Effect
+        function initTypingEffect() {
+            const typingElements = document.querySelectorAll('.typing-text');
+            
+            typingElements.forEach(element => {
+                const text = element.getAttribute('data-text');
+                element.textContent = '';
+                
+                let i = 0;
+                const typeInterval = setInterval(() => {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typeInterval);
+                        // Remove typing cursor after completion
+                        setTimeout(() => {
+                            element.style.borderRight = 'none';
+                        }, 1000);
+                    }
+                }, 100);
+            });
+        }
+        
+        // Initialize typing effect after page load
+        setTimeout(initTypingEffect, 2000);
+        
+        // Background Music Control (Optional)
+        const bgMusic = document.getElementById('bg-music');
+        let musicPlaying = false;
+        
+        // Add music toggle button
+        const musicToggle = document.createElement('button');
+        musicToggle.className = 'fixed bottom-8 left-8 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 z-50';
+        musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+        document.body.appendChild(musicToggle);
+        
+        musicToggle.addEventListener('click', () => {
+            if (musicPlaying) {
+                bgMusic.pause();
+                musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+            } else {
+                bgMusic.play();
+                musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            musicPlaying = !musicPlaying;
+        });
+        
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax');
+            
+            parallaxElements.forEach(element => {
+                const speed = 0.5;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+        
+        // Add some micro-interactions
+        document.querySelectorAll('button, a').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'translateY(-2px)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Fun facts counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                }, 16);
+            });
+        }
+        
+        // Initialize counter animation when section is visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        
+        const statsSection = document.querySelector('#about');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    </script>
+</body>
+</html>
